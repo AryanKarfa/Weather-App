@@ -1,4 +1,5 @@
 🌤️ Weather App
+
 Welcome to Weather App, a simple and user-friendly weather forecasting application built by me. This app lets users check real-time weather information for any city in the world using data from a reliable weather API.
 
 🚀 Features
