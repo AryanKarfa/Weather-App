@@ -3,6 +3,7 @@
 Welcome to Weather App, a simple and user-friendly weather forecasting application built by me. This app lets users check real-time weather information for any city using data from a reliable weather API.
 
 
+
 🚀 Features
 
 🌍 Search weather by city name
@@ -16,6 +17,7 @@ Welcome to Weather App, a simple and user-friendly weather forecasting applicati
 📱 Responsive UI for all screen sizes
 
 
+
 🛠️ Technologies Used
 
 Frontend: HTML, CSS, JavaScript
@@ -23,6 +25,7 @@ Frontend: HTML, CSS, JavaScript
 API: OpenWeatherMap
 
 Icons: Weather icons from FontAwesome
+
 
 
 🔧 Configuration
@@ -35,6 +38,7 @@ Example:
 const API_KEY = 'your_api_key_here';
 
 
+
 💡 Future Improvements
 
 7-day weather forecast
@@ -44,4 +48,5 @@ Dark/light mode toggle
 Save favorite cities
 
 Error handling and offline support
+
 
