@@ -1,58 +1,62 @@
-const apiKey = "*Your API key*";
+const apiKey = 'c83ba47753ea334462a6cd543a989c11';
+const searchBtn = document.getElementById('searchBtn');
+const cityInput = document.getElementById('cityInput');
+const weatherDiv = document.querySelector('.weather');
+const errorDiv = document.querySelector('.error');
+const weatherIcon = document.querySelector('.weather-icon');
+const tempElement = document.querySelector('.temp');
+const cityElement = document.querySelector('.city');
+const humidityElement = document.querySelector('.humidity');
+const windElement = document.querySelector('.wind');
 
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?unit=metric";
+searchBtn.addEventListener('click', () => {
+    const city = cityInput.value.trim();
 
-const searchBox = document.querySelector(".search input");
-
-const searchBtn = document.querySelector(".search button");
-
-const weatherIcon = document.querySelector(".weather-icon");
-
-async function checkWeather() {
-    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-
-    if (response.status == 404){
-        document.querySelector(".error").style.display = "block";
-        document.querySelector(".error").style.display = "none";
-    }
-    else {
-        if (data.weather[0].main == "Clouds"){
-            weatherIcon.src = "images/clouds.png";
-        }
-        else if (data.weather[0].main == "Clear"){
-            weatherIcon.src = "images/clear.png";
-        }
-        else if (data.weather[0].main == "Rain"){
-            weatherIcon.src = "images/rain.png";
-        }
-        else if (data.weather[0].main == "Mist"){
-            weatherIcon.src = "images/mist.png";
-        }
-        else if (data.weather[0].main == "Drizzle"){
-            weatherIcon.src = "images/drizzle.png";
-        }
-        else if (data.weather[0].main == "Snow"){
-            weatherIcon.src = "images/snow.png";
-        }
+    if (!city) {
+        alert('Please enter a city name.');
+        return;
     }
 
-    var data = await response.json();
-    
-    console.log(data);
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    document.querySelector(".city").innerHTML = data.name;
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.cod === "404") {
+                weatherDiv.style.display = 'none';
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+                updateWeather(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to fetch weather data.');
+        });
+});
 
-    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+function updateWeather(data) {
+    cityElement.textContent = data.name;
+    tempElement.textContent = `${Math.round(data.main.temp)}°C`;
+    humidityElement.textContent = `${data.main.humidity}%`;
+    windElement.textContent = `${data.wind.speed} km/h`;
 
-    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+    const weatherMain = data.weather[0].main.toLowerCase();
 
-    document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+    if (weatherMain.includes("cloud")) {
+        weatherIcon.src = "Images/clouds.png";
+    } else if (weatherMain.includes("rain")) {
+        weatherIcon.src = "Images/rain.png";
+    } else if (weatherMain.includes("clear")) {
+        weatherIcon.src = "Images/clear.png";
+    } else if (weatherMain.includes("snow")) {
+        weatherIcon.src = "Images/snow.png";
+    } else if (weatherMain.includes("mist")) {
+        weatherIcon.src = "Images/mist.png";
+    } else {
+        weatherIcon.src = "Images/weather.png";
+    }
 
-    document.querySelector(".weather").style.display = "block";
-    document.querySelector(".error").style.display = "none";
-
+    weatherDiv.style.display = 'block';
 }
-
-searchBtn.addEventListener("click", ()=>{
-    checkWeather(searchBox.value);
-})
